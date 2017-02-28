@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"  content="width=device-width,user-scalable=no">
+<title>html5图片上传预览插件</title>
+<script type="text/javascript" src="PreviewPicture.js"></script>
+<style type="text/css">
+html,body,ul,li{ padding:0; margin:0; list-style:none;}
+
+.previewpicture{ overflow:hidden; padding:5px;}
+.previewpicture li { overflow:hidden; position:relative; float:left; width:80px; height:80px; margin:5px; border:1px solid #ddd;}
+
+/* 添加按钮 */
+#previewpicture-add{ background:#CCC;}
+#previewpicture-add:after{content:""; position:absolute; top:50%; left:50%; z-index:1; width:30px; height:2px; margin:-1px 0 0 -15px; background:#fff; }
+#previewpicture-add:before{content:""; position:absolute; top:50%; left:50%; z-index:1; width:2px; height:30px; margin:-15px 0 0 -1px; background:#fff; }
+
+/* 图片显示 */
+.previewpicture-pic{ width:inherit; height: inherit; background-repeat:no-repeat; background-size:100% 100%;}
+
+/* 删除按钮 */
+.previewpicture-del{ position: absolute; top:0; right:0; z-index:1; width:20px; height:20px; border:1px solid #D52C2C; background:rgba(255, 255, 255, 0.5);}
+.previewpicture-del:after { content:""; position:absolute; z-index:1; top:0; left:50%; width:1px; height:100%; margin-left:-0.5px; background:#D52C2C; transform:rotate(45deg); -webkit-transform:rotate(45deg);}
+.previewpicture-del:before{ content:""; position:absolute; z-index:1; top:0; right:50%; width:1px; height:100%; margin-right:-0.5px; background:#D52C2C; transform:rotate(-45deg); -webkit-transform:rotate(-45deg);}
+</style>
+</head>
+
+<body>
+<ul class="previewpicture" id="previewpicture">
+	<li id="previewpicture-add">
+  	<div class="previewpicture-pic"></div>
+  </li>
+</ul>
+
+<script>
+
+
+	PreviewPicture('#previewpicture-add', {
+		addTrue: function (oInput, oFiles, oImage) { //添加成功执行函数，传入参数：1.被选择的input标签，2.图片信息，3.生成的图片
+			
+			var oBox = document.getElementById('previewpicture');
+			var oLi = document.createElement('li');
+		  oLi.innerHTML = '\
+			<div class="previewpicture-pic" style="background-image:url(' + oImage.result + ')"></div>\
+			<div class="previewpicture-del" onclick="delFile(this)"></div>\
+			';
+			oLi.appendChild(oInput);
+			oBox.insertBefore(oLi, document.getElementById('previewpicture-add'));
+			console.log(oFiles);
+			console.log(oImage);
+		},
+		addFalse: function () { //添加失败执行函数
+			alert('请选择图片');
+			
+		}
+	});
+
+	
+	/* 删除 */
+	
+	function delFile (_this) {
+		oLi = _this.parentNode;
+		oLi.parentNode.removeChild(oLi);
+	}
+	
+</script>
+
+
+
+</body>
+</html>
